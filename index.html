@@ -1,0 +1,1054 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CloudMax ERP 定價優化案例</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', 'Microsoft JhengHei', Arial, sans-serif;
+            line-height: 1.8;
+            margin: 0;
+            padding: 40px 60px;
+            color: #2c3e50;
+            background-color: #fafbfc;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+        
+        .header {
+            text-align: center;
+            border-bottom: 4px solid #1e3a8a;
+            padding-bottom: 30px;
+            margin-bottom: 40px;
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+            color: white;
+            margin: -40px -40px 40px -40px;
+            padding: 50px 40px 30px 40px;
+            border-radius: 12px 12px 0 0;
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 15px;
+            font-weight: 600;
+            letter-spacing: -0.5px;
+        }
+        
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.95;
+            font-weight: 300;
+        }
+        
+        .section {
+            margin-bottom: 50px;
+            padding: 0 20px;
+        }
+        
+        .section h2 {
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+            color: white;
+            padding: 20px 30px;
+            margin: 30px -20px 25px -20px;
+            border-radius: 10px;
+            font-size: 1.4em;
+            font-weight: 600;
+            letter-spacing: -0.3px;
+            box-shadow: 0 4px 15px rgba(30, 58, 138, 0.2);
+        }
+        
+        .section h3 {
+            color: #1e3a8a;
+            border-left: 6px solid #3b82f6;
+            padding-left: 20px;
+            margin-top: 35px;
+            font-size: 1.3em;
+            font-weight: 600;
+        }
+        
+        .section h4 {
+            color: #374151;
+            margin-top: 25px;
+            font-size: 1.1em;
+            font-weight: 600;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            font-size: 14px;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        table th {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            color: #1e3a8a;
+            padding: 18px 15px;
+            text-align: center;
+            font-weight: 600;
+            border-bottom: 2px solid #e2e8f0;
+            font-size: 13px;
+        }
+        
+        table td {
+            padding: 15px;
+            border-bottom: 1px solid #f1f5f9;
+            text-align: center;
+        }
+        
+        table tr:hover {
+            background-color: #f8fafc;
+        }
+        
+        .highlight {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            padding: 20px 25px;
+            border: 1px solid #f59e0b;
+            border-radius: 10px;
+            margin: 25px 0;
+            border-left: 6px solid #f59e0b;
+        }
+        
+        .key-finding {
+            background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+            padding: 20px 25px;
+            border: 1px solid #3b82f6;
+            border-radius: 10px;
+            margin: 25px 0;
+            border-left: 6px solid #1e3a8a;
+        }
+        
+        .data-source {
+            background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+            padding: 15px 20px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            margin: 20px 0;
+            font-size: 13px;
+            color: #475569;
+            border-left: 4px solid #64748b;
+        }
+        
+        .professional-calc {
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            padding: 20px 25px;
+            border-left: 6px solid #1e3a8a;
+            margin: 20px 0;
+            font-family: 'Courier New', monospace;
+            border-radius: 0 8px 8px 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+        }
+        
+        /* Professional Price Waterfall Chart */
+        .waterfall-container {
+            background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+            padding: 40px 30px;
+            margin: 30px 0;
+            border-radius: 12px;
+            border: 2px solid #e2e8f0;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.06);
+        }
+        
+        .waterfall-title {
+            text-align: center;
+            font-size: 1.3em;
+            font-weight: 600;
+            color: #1e3a8a;
+            margin-bottom: 30px;
+        }
+        
+        .waterfall-chart {
+            display: flex;
+            align-items: end;
+            justify-content: space-between;
+            height: 300px;
+            margin: 30px 0;
+            position: relative;
+        }
+        
+        .waterfall-step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex: 1;
+            margin: 0 8px;
+            position: relative;
+        }
+        
+        .waterfall-bar {
+            width: 100%;
+            max-width: 80px;
+            display: flex;
+            flex-direction: column;
+            justify-content: end;
+            align-items: center;
+            border-radius: 6px 6px 0 0;
+            position: relative;
+            margin-bottom: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .waterfall-bar:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        .bar-positive {
+            background: linear-gradient(180deg, #059669 0%, #047857 100%);
+            color: white;
+        }
+        
+        .bar-negative {
+            background: linear-gradient(180deg, #dc2626 0%, #b91c1c 100%);
+            color: white;
+        }
+        
+        .bar-final {
+            background: linear-gradient(180deg, #1e3a8a 0%, #1e40af 100%);
+            color: white;
+        }
+        
+        .bar-value {
+            padding: 8px 6px;
+            font-weight: 600;
+            font-size: 12px;
+            text-align: center;
+        }
+        
+        .bar-label {
+            text-align: center;
+            font-size: 12px;
+            font-weight: 600;
+            color: #374151;
+            line-height: 1.3;
+            margin-top: 8px;
+        }
+        
+        .waterfall-arrows {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 2px;
+            z-index: -1;
+        }
+        
+        /* Professional Margin Band Chart */
+        .margin-band-container {
+            background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+            padding: 40px 30px;
+            margin: 30px 0;
+            border-radius: 12px;
+            border: 2px solid #e2e8f0;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.06);
+        }
+        
+        .margin-band-title {
+            text-align: center;
+            font-size: 1.3em;
+            font-weight: 600;
+            color: #1e3a8a;
+            margin-bottom: 30px;
+        }
+        
+        .margin-scale {
+            display: flex;
+            height: 80px;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            margin: 30px 0;
+            border: 2px solid #e2e8f0;
+        }
+        
+        .margin-segment {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-weight: 600;
+            font-size: 13px;
+            text-align: center;
+            line-height: 1.2;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .margin-segment:hover {
+            filter: brightness(1.1);
+            transform: translateY(-2px);
+            z-index: 10;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        .segment-excellent {
+            background: linear-gradient(180deg, #059669 0%, #047857 100%);
+        }
+        
+        .segment-good {
+            background: linear-gradient(180deg, #0891b2 0%, #0e7490 100%);
+        }
+        
+        .segment-average {
+            background: linear-gradient(180deg, #ea580c 0%, #c2410c 100%);
+        }
+        
+        .segment-poor {
+            background: linear-gradient(180deg, #dc2626 0%, #b91c1c 100%);
+        }
+        
+        .segment-loss {
+            background: linear-gradient(180deg, #7c2d12 0%, #571f0f 100%);
+        }
+        
+        .margin-legend {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 25px;
+            flex-wrap: wrap;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            font-weight: 500;
+        }
+        
+        .legend-color {
+            width: 16px;
+            height: 16px;
+            border-radius: 3px;
+        }
+        
+        .footer {
+            border-top: 3px solid #1e3a8a;
+            padding-top: 30px;
+            margin-top: 50px;
+            text-align: center;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            margin-left: -40px;
+            margin-right: -40px;
+            margin-bottom: -40px;
+            padding-left: 40px;
+            padding-right: 40px;
+            padding-bottom: 40px;
+            border-radius: 0 0 12px 12px;
+        }
+        
+        /* Enhanced table styling for better readability */
+        .highlight-row {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 50%) !important;
+            font-weight: 600;
+        }
+        
+        .positive-row {
+            background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 50%) !important;
+        }
+        
+        .negative-row {
+            background: linear-gradient(135deg, #fee2e2 0%, #fecaca 50%) !important;
+        }
+        
+        .neutral-row {
+            background: linear-gradient(135deg, #f0f9ff 0%, #dbeafe 50%) !important;
+        }
+        
+        /* Responsive design */
+        @media (max-width: 768px) {
+            body {
+                padding: 20px;
+            }
+            
+            .container {
+                padding: 20px;
+            }
+            
+            .waterfall-chart {
+                height: 250px;
+            }
+            
+            .margin-scale {
+                height: 60px;
+            }
+            
+            .margin-legend {
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>CloudMax ERP 定價優化案例</h1>
+            <p><strong>Price Waterfall & Pocket Margin Band 實務應用</strong></p>
+        </div>
+
+        <div class="section">
+            <h2>案例背景</h2>
+            <p><strong>CloudMax</strong> 是一家提供中小企業ERP雲端服務的公司，成立5年，目前有200個付費客戶。CEO Sarah Chen最近發現公司營收成長強勁（年增長40%），但獲利率卻在下滑（從35%降至18%）。</p>
+            
+            <h3>基本產品資訊</h3>
+            <ul>
+                <li><strong>標準年費定價</strong>: $60,000</li>
+                <li><strong>產品邊際成本</strong>: $12,000（雲端基礎設施、授權費用等）</li>
+                <li><strong>銷售模式</strong>: 直接銷售團隊 + 渠道夥伴</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>第一部分：Price Waterfall分析</h2>
+            
+            <h3>TechStart Inc. 典型客戶案例</h3>
+            
+            <div class="data-source">
+                <strong>數據來源</strong>: TechStart Inc.（50人製造公司）2024年度合約記錄<br>
+                <strong>合約細節</strong>: 三年期合約，渠道夥伴引薦，包含實施與支援服務
+            </div>
+
+            <h4>價格構成要素</h4>
+            <table>
+                <thead>
+                    <tr>
+                        <th>定價要素</th>
+                        <th>基準/比率</th>
+                        <th>市場價值</th>
+                        <th>實際成本</th>
+                        <th>數據來源</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>標準年費</td>
+                        <td>定價表</td>
+                        <td>$60,000</td>
+                        <td>-</td>
+                        <td>官方價格表2024</td>
+                    </tr>
+                    <tr>
+                        <td>業務員授權折扣</td>
+                        <td>15%上限</td>
+                        <td>-</td>
+                        <td>$9,000</td>
+                        <td>銷售政策手冊</td>
+                    </tr>
+                    <tr>
+                        <td>多年合約折扣</td>
+                        <td>3年期額外5%</td>
+                        <td>-</td>
+                        <td>$2,550</td>
+                        <td>合約條款</td>
+                    </tr>
+                    <tr>
+                        <td>渠道夥伴佣金</td>
+                        <td>發票金額8%</td>
+                        <td>-</td>
+                        <td>$3,876</td>
+                        <td>渠道協議書</td>
+                    </tr>
+                    <tr>
+                        <td>實施服務</td>
+                        <td>市場價$8,000</td>
+                        <td>$8,000</td>
+                        <td>$6,500</td>
+                        <td>服務成本分析</td>
+                    </tr>
+                    <tr>
+                        <td>技術支援升級</td>
+                        <td>市場價$4,500</td>
+                        <td>$4,500</td>
+                        <td>$3,500</td>
+                        <td>支援成本分析</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h4>Price Waterfall 逐步計算</h4>
+            
+            <div class="professional-calc">
+                <strong>Step 1: 標準定價</strong><br>
+                基準價格 = $60,000
+            </div>
+
+            <div class="professional-calc">
+                <strong>Step 2: 業務員折扣</strong><br>
+                折扣金額 = $60,000 × 15% = $9,000<br>
+                剩餘金額 = $60,000 - $9,000 = $51,000<br>
+                <em>數據來源: 合約簽署記錄，業務員Tom Smith授權範圍內</em>
+            </div>
+
+            <div class="professional-calc">
+                <strong>Step 3: 多年合約追加折扣</strong><br>
+                計算基礎 = 已折扣價格 $51,000<br>
+                追加折扣 = $51,000 × 5% = $2,550<br>
+                發票價格 = $51,000 - $2,550 = $48,450<br>
+                <em>數據來源: 三年期合約條款第3.2節</em>
+            </div>
+
+            <div class="professional-calc">
+                <strong>Step 4: 渠道夥伴佣金</strong><br>
+                佣金基礎 = 發票價格 $48,450<br>
+                佣金金額 = $48,450 × 8% = $3,876<br>
+                扣除後金額 = $48,450 - $3,876 = $44,574<br>
+                <em>數據來源: ABC Systems渠道協議書，季度佣金報表</em>
+            </div>
+
+            <div class="professional-calc">
+                <strong>Step 5: 實施服務實際成本</strong><br>
+                客戶獲得價值 = $8,000（市場同等服務價格）<br>
+                公司實際投入 = $6,500（工程師時數 × 內部成本率）<br>
+                扣除後金額 = $44,574 - $6,500 = $38,074<br>
+                <em>數據來源: 專案時間記錄，內部成本分攤表</em>
+            </div>
+
+            <div class="professional-calc">
+                <strong>Step 6: 技術支援升級成本</strong><br>
+                客戶獲得價值 = $4,500（市場同等服務價格）<br>
+                公司實際投入 = $3,500（支援團隊分攤成本）<br>
+                <strong>Pocket Price = $38,074 - $3,500 = $34,574</strong><br>
+                <em>數據來源: 客戶成功部門成本分析，2024年Q4報告</em>
+            </div>
+
+            <div class="waterfall-container">
+                <div class="waterfall-title">TechStart Inc. Price Waterfall 分析</div>
+                <div class="waterfall-chart">
+                    <div class="waterfall-step">
+                        <div class="waterfall-bar bar-positive" style="height: 200px;">
+                            <div class="bar-value">$60,000<br>100%</div>
+                        </div>
+                        <div class="bar-label">標準定價</div>
+                    </div>
+                    
+                    <div class="waterfall-step">
+                        <div class="waterfall-bar bar-negative" style="height: 30px;">
+                            <div class="bar-value">-$9,000<br>-15%</div>
+                        </div>
+                        <div class="bar-label">業務員<br>折扣</div>
+                    </div>
+                    
+                    <div class="waterfall-step">
+                        <div class="waterfall-bar bar-negative" style="height: 13px;">
+                            <div class="bar-value">-$2,550<br>-4.3%</div>
+                        </div>
+                        <div class="bar-label">合約<br>折扣</div>
+                    </div>
+                    
+                    <div class="waterfall-step">
+                        <div class="waterfall-bar bar-positive" style="height: 162px;">
+                            <div class="bar-value">$48,450<br>80.8%</div>
+                        </div>
+                        <div class="bar-label">發票<br>價格</div>
+                    </div>
+                    
+                    <div class="waterfall-step">
+                        <div class="waterfall-bar bar-negative" style="height: 16px;">
+                            <div class="bar-value">-$3,876<br>-6.5%</div>
+                        </div>
+                        <div class="bar-label">渠道<br>佣金</div>
+                    </div>
+                    
+                    <div class="waterfall-step">
+                        <div class="waterfall-bar bar-negative" style="height: 22px;">
+                            <div class="bar-value">-$6,500<br>-10.8%</div>
+                        </div>
+                        <div class="bar-label">實施<br>成本</div>
+                    </div>
+                    
+                    <div class="waterfall-step">
+                        <div class="waterfall-bar bar-negative" style="height: 12px;">
+                            <div class="bar-value">-$3,500<br>-5.8%</div>
+                        </div>
+                        <div class="bar-label">支援<br>成本</div>
+                    </div>
+                    
+                    <div class="waterfall-step">
+                        <div class="waterfall-bar bar-final" style="height: 115px;">
+                            <div class="bar-value">$34,574<br>57.6%</div>
+                        </div>
+                        <div class="bar-label"><strong>Pocket<br>Price</strong></div>
+                    </div>
+                </div>
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>項目</th>
+                        <th>金額 (USD)</th>
+                        <th>累計金額 (USD)</th>
+                        <th>相對標準價格 (%)</th>
+                        <th>價格侵蝕 (%)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>標準定價</strong></td>
+                        <td>60,000</td>
+                        <td>60,000</td>
+                        <td>100.0%</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>業務員折扣</td>
+                        <td>(9,000)</td>
+                        <td>51,000</td>
+                        <td>85.0%</td>
+                        <td>-15.0%</td>
+                    </tr>
+                    <tr>
+                        <td>多年合約折扣</td>
+                        <td>(2,550)</td>
+                        <td>48,450</td>
+                        <td>80.8%</td>
+                        <td>-4.3%</td>
+                    </tr>
+                    <tr class="highlight-row">
+                        <td><strong>發票價格</strong></td>
+                        <td><strong>48,450</strong></td>
+                        <td><strong>48,450</strong></td>
+                        <td><strong>80.8%</strong></td>
+                        <td><strong>-19.3%</strong></td>
+                    </tr>
+                    <tr>
+                        <td>渠道夥伴佣金</td>
+                        <td>(3,876)</td>
+                        <td>44,574</td>
+                        <td>74.3%</td>
+                        <td>-6.5%</td>
+                    </tr>
+                    <tr>
+                        <td>實施服務成本</td>
+                        <td>(6,500)</td>
+                        <td>38,074</td>
+                        <td>63.5%</td>
+                        <td>-10.8%</td>
+                    </tr>
+                    <tr>
+                        <td>技術支援成本</td>
+                        <td>(3,500)</td>
+                        <td>34,574</td>
+                        <td>57.6%</td>
+                        <td>-5.8%</td>
+                    </tr>
+                    <tr class="neutral-row">
+                        <td><strong>Pocket Price</strong></td>
+                        <td><strong>34,574</strong></td>
+                        <td><strong>34,574</strong></td>
+                        <td><strong>57.6%</strong></td>
+                        <td><strong>-42.4%</strong></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="key-finding">
+                <h4>Price Waterfall 關鍵發現</h4>
+                <ul>
+                    <li><strong>總價格侵蝕: 42.4%</strong> - 從標準價格$60,000降至實際收益$34,574</li>
+                    <li><strong>最大漏洞: 業務折扣(15%) + 隐性服務成本(16.6%)</strong></li>
+                    <li><strong>發票價格vs實際收益落差: 28.7%</strong> - 大量隐性成本被忽略</li>
+                    <li><strong>每$1標準價格僅實現$0.58真實收益</strong></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>第二部分：Pocket Margin Band分析</h2>
+            
+            <div class="data-source">
+                <strong>分析範圍</strong>: CloudMax全部200個付費客戶（2024年數據）<br>
+                <strong>分析期間</strong>: 2024年1月-12月年度表現<br>
+                <strong>成本分攤方法</strong>: Activity-Based Costing (ABC)
+            </div>
+
+            <h3>標準化成本結構</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>成本類別</th>
+                        <th>基礎成本 (USD)</th>
+                        <th>變動範圍 (USD)</th>
+                        <th>成本驅動因子</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>產品邊際成本</td>
+                        <td>12,000</td>
+                        <td>固定</td>
+                        <td>雲端資源、授權費</td>
+                    </tr>
+                    <tr>
+                        <td>基礎客戶服務</td>
+                        <td>8,000</td>
+                        <td>固定</td>
+                        <td>標準支援、帳戶管理</td>
+                    </tr>
+                    <tr>
+                        <td>高強度技術支援</td>
+                        <td>0</td>
+                        <td>3,000 - 15,000</td>
+                        <td>支援ticket數量、複雜度</td>
+                    </tr>
+                    <tr>
+                        <td>客製化開發</td>
+                        <td>0</td>
+                        <td>2,000 - 12,000</td>
+                        <td>開發工時、複雜度</td>
+                    </tr>
+                    <tr>
+                        <td>專屬客戶經理</td>
+                        <td>0</td>
+                        <td>0 - 8,000</td>
+                        <td>客戶戰略重要性</td>
+                    </tr>
+                    <tr>
+                        <td>特殊實施需求</td>
+                        <td>0</td>
+                        <td>0 - 5,000</td>
+                        <td>實施複雜度</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>客戶群詳細分析</h3>
+
+            <h4>A群 - 金牌客戶 (20客戶)</h4>
+            <div class="professional-calc">
+                <strong>客戶特徵</strong>: 成熟製造業，標準化需求<br>
+                <strong>平均年費</strong>: $75,000<br>
+                <strong>平均折扣率</strong>: 8%（低折扣，價格接受度高）<br>
+                <br>
+                <strong>Pocket Price計算</strong>:<br>
+                發票金額 = $75,000 × (1 - 8%) = $69,000<br>
+                渠道佣金 = $69,000 × 3% = $2,070 （直銷為主）<br>
+                額外服務成本 = $2,000 （minimal customization）<br>
+                <strong>平均Pocket Price = $69,000 - $2,070 - $2,000 = $64,930</strong><br>
+                <br>
+                <strong>成本結構</strong>:<br>
+                標準成本 = $12,000 + $8,000 = $20,000<br>
+                額外成本 = $2,000<br>
+                <strong>總成本 = $22,000</strong><br>
+                <br>
+                <strong>Pocket Margin = ($64,930 - $22,000) ÷ $64,930 = 66%</strong>
+            </div>
+
+            <h4>B群 - 優質客戶 (40客戶)</h4>
+            <div class="professional-calc">
+                <strong>客戶特徵</strong>: 中型企業，平衡的需求組合<br>
+                <strong>平均年費</strong>: $62,000<br>
+                <strong>平均折扣率</strong>: 12%<br>
+                <br>
+                <strong>Pocket Price計算</strong>:<br>
+                發票金額 = $62,000 × (1 - 12%) = $54,560<br>
+                渠道佣金 = $54,560 × 5% = $2,728<br>
+                額外服務成本 = $4,000<br>
+                <strong>平均Pocket Price = $54,560 - $2,728 - $4,000 = $47,832</strong><br>
+                <br>
+                <strong>總成本 = $20,000 + $5,000 = $25,000</strong><br>
+                <strong>Pocket Margin = ($47,832 - $25,000) ÷ $47,832 = 48%</strong>
+            </div>
+
+            <h4>C群 - 標準客戶 (80客戶)</h4>
+            <div class="professional-calc">
+                <strong>客戶特徵</strong>: 一般商業客戶，中等客製需求<br>
+                <strong>平均年費</strong>: $58,000<br>
+                <strong>平均折扣率</strong>: 18%<br>
+                <br>
+                <strong>Pocket Price計算</strong>:<br>
+                發票金額 = $58,000 × (1 - 18%) = $47,560<br>
+                渠道佣金 = $47,560 × 6% = $2,854<br>
+                額外服務成本 = $6,500<br>
+                <strong>平均Pocket Price = $47,560 - $2,854 - $6,500 = $38,206</strong><br>
+                <br>
+                <strong>總成本 = $20,000 + $8,000 = $28,000</strong><br>
+                <strong>Pocket Margin = ($38,206 - $28,000) ÷ $38,206 = 27%</strong>
+            </div>
+
+            <h4>D群 - 低利潤客戶 (45客戶)</h4>
+            <div class="professional-calc">
+                <strong>客戶特徵</strong>: 價格敏感，高服務需求<br>
+                <strong>平均年費</strong>: $55,000<br>
+                <strong>平均折扣率</strong>: 25%<br>
+                <br>
+                <strong>Pocket Price計算</strong>:<br>
+                發票金額 = $55,000 × (1 - 25%) = $41,250<br>
+                渠道佣金 = $41,250 × 8% = $3,300<br>
+                額外服務成本 = $8,000<br>
+                <strong>平均Pocket Price = $41,250 - $3,300 - $8,000 = $29,950</strong><br>
+                <br>
+                <strong>總成本 = $20,000 + $12,000 = $32,000</strong><br>
+                <strong>Pocket Margin = ($29,950 - $32,000) ÷ $29,950 = -7%</strong>
+            </div>
+
+            <h4>E群 - 問題客戶 (15客戶)</h4>
+            <div class="professional-calc">
+                <strong>客戶特徵</strong>: 新創科技，極高客製化需求<br>
+                <strong>平均年費</strong>: $50,000<br>
+                <strong>平均折扣率</strong>: 30%<br>
+                <br>
+                <strong>Pocket Price計算</strong>:<br>
+                發票金額 = $50,000 × (1 - 30%) = $35,000<br>
+                渠道佣金 = $35,000 × 8% = $2,800<br>
+                額外服務成本 = $12,000<br>
+                <strong>平均Pocket Price = $35,000 - $2,800 - $12,000 = $20,200</strong><br>
+                <br>
+                <strong>總成本 = $20,000 + $18,000 = $38,000</strong><br>
+                <strong>Pocket Margin = ($20,200 - $38,000) ÷ $20,200 = -88%</strong>
+            </div>
+
+            <div class="margin-band-container">
+                <div class="margin-band-title">客戶獲利分佈圖 (Pocket Margin Band)</div>
+                <div class="margin-scale">
+                    <div class="margin-segment segment-excellent" style="width: 10%;">
+                        <div>A群</div>
+                        <div>20客戶</div>
+                        <div>66%</div>
+                    </div>
+                    <div class="margin-segment segment-good" style="width: 20%;">
+                        <div>B群</div>
+                        <div>40客戶</div>
+                        <div>48%</div>
+                    </div>
+                    <div class="margin-segment segment-average" style="width: 40%;">
+                        <div>C群</div>
+                        <div>80客戶</div>
+                        <div>27%</div>
+                    </div>
+                    <div class="margin-segment segment-poor" style="width: 22.5%;">
+                        <div>D群</div>
+                        <div>45客戶</div>
+                        <div>-7%</div>
+                    </div>
+                    <div class="margin-segment segment-loss" style="width: 7.5%;">
+                        <div>E群</div>
+                        <div>15客戶</div>
+                        <div>-88%</div>
+                    </div>
+                </div>
+                
+                <div class="margin-legend">
+                    <div class="legend-item">
+                        <div class="legend-color segment-excellent"></div>
+                        <span>優秀 (>50%)</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color segment-good"></div>
+                        <span>良好 (30-50%)</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color segment-average"></div>
+                        <span>一般 (10-30%)</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color segment-poor"></div>
+                        <span>差 (0-10%)</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color segment-loss"></div>
+                        <span>虧損 (<0%)</span>
+                    </div>
+                </div>
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>客戶群</th>
+                        <th>客戶數</th>
+                        <th>平均年費<br>(USD)</th>
+                        <th>平均折扣率</th>
+                        <th>平均Pocket Price<br>(USD)</th>
+                        <th>平均成本<br>(USD)</th>
+                        <th>平均Margin</th>
+                        <th>總利潤貢獻<br>(USD)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="positive-row">
+                        <td>A群</td>
+                        <td>20</td>
+                        <td>75,000</td>
+                        <td>8%</td>
+                        <td>64,930</td>
+                        <td>22,000</td>
+                        <td>66%</td>
+                        <td>858,600</td>
+                    </tr>
+                    <tr class="positive-row">
+                        <td>B群</td>
+                        <td>40</td>
+                        <td>62,000</td>
+                        <td>12%</td>
+                        <td>47,832</td>
+                        <td>25,000</td>
+                        <td>48%</td>
+                        <td>913,280</td>
+                    </tr>
+                    <tr class="highlight-row">
+                        <td>C群</td>
+                        <td>80</td>
+                        <td>58,000</td>
+                        <td>18%</td>
+                        <td>38,206</td>
+                        <td>28,000</td>
+                        <td>27%</td>
+                        <td>816,480</td>
+                    </tr>
+                    <tr class="negative-row">
+                        <td>D群</td>
+                        <td>45</td>
+                        <td>55,000</td>
+                        <td>25%</td>
+                        <td>29,950</td>
+                        <td>32,000</td>
+                        <td>-7%</td>
+                        <td>(92,250)</td>
+                    </tr>
+                    <tr class="negative-row">
+                        <td>E群</td>
+                        <td>15</td>
+                        <td>50,000</td>
+                        <td>30%</td>
+                        <td>20,200</td>
+                        <td>38,000</td>
+                        <td>-88%</td>
+                        <td>(267,000)</td>
+                    </tr>
+                    <tr class="neutral-row">
+                        <td><strong>總計</strong></td>
+                        <td><strong>200</strong></td>
+                        <td><strong>60,000</strong></td>
+                        <td><strong>18.6%</strong></td>
+                        <td><strong>39,596</strong></td>
+                        <td><strong>28,450</strong></td>
+                        <td><strong>28%</strong></td>
+                        <td><strong>2,229,110</strong></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="key-finding">
+                <h4>Pocket Margin Band 關鍵洞察</h4>
+                <ul>
+                    <li><strong>20/80效應</strong>: 30%客戶(A+B群)貢獻79%利潤($1,771,880/$2,229,110)</li>
+                    <li><strong>價值毀滅客戶</strong>: 30%客戶(D+E群)每年虧損$359,250</li>
+                    <li><strong>獲利能力兩極化</strong>: 最高66% vs 最低-88%，差距154個百分點</li>
+                    <li><strong>規模陷阱</strong>: 60個虧損客戶拖累整體margin至28%</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>第三部分：策略優化建議</h2>
+            
+            <h3>客戶組合重構策略</h3>
+            
+            <h4>策略一：負利潤客戶重新定價</h4>
+            <div class="professional-calc">
+                <strong>目標客戶</strong>: E群15個客戶（-88% margin）<br>
+                <strong>行動方案</strong>: 平均漲價50%，從$50,000提升至$75,000<br>
+                <strong>預期客戶反應</strong>: 60%接受（9個），40%流失（6個）<br>
+                <br>
+                <strong>財務影響計算</strong>:<br>
+                營收變化 = 9×$52,500 + 0×6 - 15×$35,000 = -$52,500<br>
+                成本節省 = 6×$38,000 = $228,000<br>
+                利潤改善 = 9×(-$5,900) - 15×(-$17,800) = $213,900<br>
+                <strong>淨效益 = +$175,500</strong>
+            </div>
+
+            <h4>策略二：低利潤客戶標準化</h4>
+            <div class="professional-calc">
+                <strong>目標客戶</strong>: D群45個客戶（-7% margin）<br>
+                <strong>行動方案</strong>: 標準化服務包，降低成本至$25,000<br>
+                <strong>預期客戶流失</strong>: 20%（9個客戶）<br>
+                <br>
+                <strong>財務影響計算</strong>:<br>
+                營收損失 = 9×$41,250 = -$371,250<br>
+                成本節省 = 36×$7,000 + 9×$32,000 = $540,000<br>
+                <strong>淨效益 = +$168,750</strong>
+            </div>
+
+            <h3>優化後財務預測</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>指標</th>
+                        <th>優化前</th>
+                        <th>優化後</th>
+                        <th>變化</th>
+                        <th>變化率</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>總客戶數</td>
+                        <td>200</td>
+                        <td>185</td>
+                        <td>-15</td>
+                        <td>-7.5%</td>
+                    </tr>
+                    <tr>
+                        <td>總營收 (USD)</td>
+                        <td>10,919,110</td>
+                        <td>10,495,360</td>
+                        <td>-423,750</td>
+                        <td>-3.9%</td>
+                    </tr>
+                    <tr>
+                        <td>總Pocket Price (USD)</td>
+                        <td>7,919,110</td>
+                        <td>7,495,360</td>
+                        <td>-423,750</td>
+                        <td>-5.4%</td>
+                    </tr>
+                    <tr>
+                        <td>總成本 (USD)</td>
+                        <td>5,690,000</td>
+                        <td>4,922,000</td>
+                        <td>-768,000</td>
+                        <td>-13.5%</td>
+                    </tr>
+                    <tr class="positive-row">
+                        <td><strong>總利潤 (USD)</strong></td>
+                        <td><strong>2,229,110</strong></td>
+                        <td><strong>2,573,360</strong></td>
+                        <td><strong>+344,250</strong></td>
+                        <td><strong>+15.4%</strong></td>
+                    </tr>
+                    <tr class="positive-row">
+                        <td><strong>利潤率</strong></td>
+                        <td><strong>28%</strong></td>
+                        <td><strong>37%</strong></td>
+                        <td><strong>+9%</strong></td>
+                        <td><strong>+32.1%</strong></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="footer">
+            <p><strong>案例總結</strong></p>
+            <p>CloudMax透過Price Waterfall分析發現42.4%的價格侵蝕，通過Pocket Margin Band分析識別出價值毀滅客戶。系統性優化使公司在營收微幅下降的情況下，利潤率從28%提升至37%，證明了精準客戶管理的價值。</p>
+            <br>
+            <p><em>本案例基於真實商業邏輯設計，所有計算過程均可驗證</em></p>
+        </div>
+    </div>
+</body>
+</html>
